@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {TipoIMC} from './imc.model';
 
 @Component({
   selector: 'imc-persona', // Define un espacio nuevo. Selector que se utiliza para llamar al componente en el html padre
@@ -11,6 +12,7 @@ export class ImcComponent implements OnInit, OnChanges {
   // El valor entre [] tiene que ser el mismo del input.
   @Input() altura: number;
   imc : number;
+  tipo: TipoIMC;
 
   informar() : void{
     console.log("Peso:",this.peso);
@@ -21,11 +23,27 @@ export class ImcComponent implements OnInit, OnChanges {
     this.imc = peso/((altura)*(altura));
   }
 
+  static calcularIMC (imc:number):TipoIMC {
+    let valor : TipoIMC;
+      if (imc < 16) {
+        valor = TipoIMC.desnutrido
+      } else if (imc <=18) {
+        valor = TipoIMC.delgado
+      } else if (imc <=25) {
+        valor = TipoIMC.normal
+      } else if (imc <=31) {
+        valor = TipoIMC.sobrepeso
+      } else if (imc >31){
+        valor = TipoIMC.obeso
+      }
+    return valor;
+  }
+
   ngOnInit(){
     console.log("Init de Imc");
     this.informar();
   }
-  ngOnChanges(changes:SimpleChanges){
+  ngOnChanges(changes:SimpleChanges){    
     if (changes.peso) {
       console.log("Peso Modificado!");
       console.log("Peso Actual",changes.peso.currentValue);
@@ -33,6 +51,7 @@ export class ImcComponent implements OnInit, OnChanges {
     }  
     console.log("Changes de Imc");
     this.calculoImc(this.peso , this.altura);
+    let imc_n = ImcComponent.calcularIMC(this.imc);
     this.informar();
   }
 }
