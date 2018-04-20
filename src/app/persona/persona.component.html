@@ -1,0 +1,19 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center" *ngIf="persona">
+	<form> <!-- ngIf == IF persona existe en el componente, muestra los hijos. Permite trabajar asíncronamente-->
+		<label for="nombre">NOMBRE</label>
+		<input type="text" id="nombre" [(ngModel)]="persona.nombre" name="nombre"> <!--ngModel permite leer del atributo del componente 
+		o que se coja el valor del html. Es bidireccional. "Doble binding"-->
+		<label for="altura">ALTURA</label>
+		<input type="number" id="altura" [(ngModel)]="persona.altura" name="altura">
+		<label for="peso">PESO</label>
+		<input type="number" id="peso" [(ngModel)]="persona.peso" name="peso">
+		<button (click) = "mostrarPersona(persona)">Mostrar Persona</button>
+	</form>
+	<imc-persona [peso]="persona.peso" [altura]="persona.altura"></imc-persona>
+</div>
+<!-- <div style="text-align:center" [hidden]="persona">[hidden]="persona" == ELSE Booleano. Si persona devuelve false entonces no es visible
+NO EXISTE PERSONA
+</div> -->
+
+
